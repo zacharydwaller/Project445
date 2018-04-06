@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 	void Start ()
 	{
 		// Made some remote changes
+		// More remote changes
 	}
 	
 	// Update is called once per frame
