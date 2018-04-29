@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Packets : MonoBehaviour {
 
@@ -8,34 +6,40 @@ public class Packets : MonoBehaviour {
     int[] packetID = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 700 };
 
     float packetDelay = 1;
+    float packetDelayVariance = 0.5f;
     float nextPacket;
 
     GameManager gameManager;
 
     // Use this for initialization
-    void Start () {
+    void Start() {
         PacketIDMaker();
         badID = (Random.Range(0, 10));
 
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
+        
+
         nextPacket = packetDelay;
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update() {
         if (Time.time >= nextPacket)
         {
-            nextPacket = Time.time + packetDelay;
+            nextPacket = Time.time + GetRandomDelay();
 
+            int healthBefore = gameManager.Health;
             int packet = Mathf.RoundToInt(Random.Range(0, 10));
+
             if (packet == badID)
             {
                 gameManager.Health -= 4;
             }
 
-            Debug.Log(packetID[packet]);
-            Debug.Log(Mathf.Floor(Time.time));
+            int healthAfter = gameManager.Health;
+
+            gameManager.LogPacket(packetID[packet], healthBefore, healthAfter);
         }
     }
 
@@ -75,5 +79,10 @@ public class Packets : MonoBehaviour {
         Text9.text = packetID[8].ToString();
         var Text10 = GameObject.Find("10Text").GetComponent<TextMesh>();
         Text10.text = packetID[9].ToString();
+    }
+
+    float GetRandomDelay()
+    {
+        return Random.Range(packetDelay - packetDelayVariance, packetDelay + packetDelayVariance);
     }
 }
