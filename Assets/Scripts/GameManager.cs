@@ -6,14 +6,15 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+
+    public ScoreHolder ScoreHolder;
+
     public const int MaxHealth = 100;
     public int Health = MaxHealth;
     Text logText;
 
     public const float GoalTime = 1f;
     private float StartTime;
-
-    bool winTransition = false;
 
     List<string> LogMessages;
     int maxMessages = 10;
@@ -35,13 +36,8 @@ public class GameManager : MonoBehaviour
 	{
         if(Time.time >= StartTime + GoalTime)
         {
-            winTransition = true;
+            ScoreHolder.Score = Health * 100;
             SceneManager.LoadScene("winScene");
-
-            int score = Health * 100;
-            var scoreObj = GameObject.Find("ScoreText");
-            var scoreText = scoreObj.GetComponent<TextMesh>();
-            scoreText.text = "Your Score: " + score.ToString();
         }
 	}
 
