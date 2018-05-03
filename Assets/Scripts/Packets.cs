@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Packets : MonoBehaviour {
 
@@ -17,23 +18,28 @@ public class Packets : MonoBehaviour {
     // Use this for initialization
     void Start() {
         PacketIDMaker();
-        badID = (Random.Range(0, 10));
-        goodID = (Random.Range(0, 10));
-        speedUpID = (Random.Range(0, 10));
-        speedDownID = (Random.Range(0, 10));
-        while ( goodID == badID)
-            goodID = (Random.Range(0, 10));
-        while (speedUpID == goodID || speedUpID == badID)
-            speedUpID = (Random.Range(0, 10));
-        while (speedDownID == goodID || speedDownID == badID || speedDownID == speedUpID)
-            speedDownID = (Random.Range(0, 10));
 
+        badID = Random.Range(0, 10);
+        goodID = Random.Range(0, 10);
+        speedUpID = Random.Range(0, 10);
+        speedDownID = Random.Range(0, 10);
+
+        while (goodID == badID)
+        {
+            goodID = (Random.Range(0, 10));
+        }
+
+        while (speedUpID == goodID || speedUpID == badID)
+        {
+            speedUpID = (Random.Range(0, 10));
+        }
+
+        while (speedDownID == goodID || speedDownID == badID || speedDownID == speedUpID)
+        {
+            speedDownID = (Random.Range(0, 10));
+        }
 
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-		//Box1 = GameObject.Find("Box1").GetComponent<COlor>();
-
-        
-
         nextPacket = packetDelay;
     }
 
@@ -42,33 +48,19 @@ public class Packets : MonoBehaviour {
 
         if (Time.time >= nextPacket)
         {
-            string boxID = "1";
             nextPacket = Time.time + GetRandomDelay();
 
             int healthBefore = gameManager.Health;
+
             int packet = Mathf.RoundToInt(Random.Range(0, 10));
+            int boxNumber = packet % 10;
+            string boxID = "Box" + boxNumber.ToString();
+
             if (gameManager.Health <= 0)
-                Application.LoadLevel("gameOver");
-            if (packet == 0)
-            { boxID = "Box1";  }
-            else if (packet == 1)
-            { boxID = "Box2"; }
-            else if (packet == 2)
-            { boxID = "Box3"; }
-            else if (packet == 3)
-            { boxID = "Box4"; }
-            else if (packet == 4)
-            { boxID = "Box5"; }
-            else if (packet == 5)
-            { boxID = "Box6"; }
-            else if (packet == 6)
-            { boxID = "Box7"; }
-            else if (packet == 7)
-            { boxID = "Box8"; }
-            else if (packet == 8)
-            { boxID = "Box9"; }
-            else if (packet == 9)
-            { boxID = "Box10"; }
+            {
+                SceneManager.LoadScene("gameOver");
+            }
+
             var Box = GameObject.Find(boxID).GetComponent<portBlock>();
 
             if (packet == badID && Box.blocked != 1)

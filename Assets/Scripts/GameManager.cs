@@ -30,39 +30,12 @@ public class GameManager : MonoBehaviour
 
 	public void LogPacket(int packetId, int healthBefore, int healthAfter, float packetDelay)
     {
-        string boxID = "1";
         string portScriptNumber = "1";
-        if (packetId % 10 == 1)
-        {
-            boxID = "Box1";
-        }
-        else  if (packetId % 10 == 2)
-        {
-            boxID = "Box2";
-        }
-        else if (packetId % 10 == 3)
-        { boxID = "Box3"; }
-        else if (packetId % 10 == 4)
-        { boxID = "Box4"; }
-        else if (packetId % 10 == 5)
-        { boxID = "Box5"; }
-        else if (packetId % 10 == 6)
-        { boxID = "Box6"; }
-        else if (packetId % 10 == 7)
-        { boxID = "Box7"; }
-        else if (packetId % 10 == 8)
-        { boxID = "Box8"; }
-        else if (packetId % 10 == 9)
-        { boxID = "Box9";}
-        else if (packetId % 10 == 0)
-        { boxID = "Box10"; }
+        int boxNumber = packetId % 10;
+        string boxID = "Box" + boxNumber.ToString();
+
         var Box1 = GameObject.Find(boxID).GetComponent<portBlock>();
-        //if( packetId % 10 == 2)     
-        //var Box = GameObject.Find("Box2").GetComponent<portBlock>();
-        //if (packetId % 10 == 1 && Box1.blocked == 1)
-        //logText.color = Color.black;
-        //else
-        //logText.color = Color.white;
+
         if (Box1.blocked == 0)
         {
             string logStr =
