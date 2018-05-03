@@ -3,16 +3,16 @@ using UnityEngine.SceneManagement;
 
 public class Packets : MonoBehaviour {
 
-    int badID;
-    int goodID;
-    int speedUpID;
-    int speedDownID;
+    int badIndex;
+    int goodIndex;
+    int speedUpIndex;
+    int speedDownIndex;
 
-    int[] packetID = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+    int[] packetIds = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 
     public float packetDelay = 1f;
     float packetDelayVariance = 0.25f;
-    float nextPacket;
+    float nextPacketTime;
 
     GameManager gameManager;
 
@@ -21,28 +21,28 @@ public class Packets : MonoBehaviour {
     {
         PacketIDMaker();
 
-        badID = Random.Range(0, 10);
-        goodID = Random.Range(0, 10);
-        speedUpID = Random.Range(0, 10);
-        speedDownID = Random.Range(0, 10);
+        badIndex = Random.Range(0, 10);
+        goodIndex = Random.Range(0, 10);
+        speedUpIndex = Random.Range(0, 10);
+        speedDownIndex = Random.Range(0, 10);
 
-        while (goodID == badID)
+        while (goodIndex == badIndex)
         {
-            goodID = (Random.Range(0, 10));
+            goodIndex = (Random.Range(0, 10));
         }
 
-        while (speedUpID == goodID || speedUpID == badID)
+        while (speedUpIndex == goodIndex || speedUpIndex == badIndex)
         {
-            speedUpID = (Random.Range(0, 10));
+            speedUpIndex = (Random.Range(0, 10));
         }
 
-        while (speedDownID == goodID || speedDownID == badID || speedDownID == speedUpID)
+        while (speedDownIndex == goodIndex || speedDownIndex == badIndex || speedDownIndex == speedUpIndex)
         {
-            speedDownID = (Random.Range(0, 10));
+            speedDownIndex = (Random.Range(0, 10));
         }
 
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        nextPacket = packetDelay;
+        nextPacketTime = packetDelay;
     }
 
     // Update is called once per frame
@@ -54,37 +54,37 @@ public class Packets : MonoBehaviour {
             SceneManager.LoadScene("gameOver");
         }
 
-        if (Time.time >= nextPacket)
+        if (Time.time >= nextPacketTime)
         {
-            nextPacket = Time.time + GetRandomDelay();
+            nextPacketTime = Time.time + GetRandomDelay();
 
             int healthBefore = gameManager.Health;
 
-            int packet = Mathf.RoundToInt(Random.Range(0, 10));
-            int boxNumber = (packet % 10) + 1;
+            int packetIndex = Random.Range(0, 10);
+            int boxNumber = packetIndex + 1;
             string boxID = "Box" + boxNumber.ToString();
 
             var Box = GameObject.Find(boxID).GetComponent<PortBlock>();
 
-            if (packet == badID && Box.Blocked == false)
+            if (packetIndex == badIndex && Box.Blocked == false)
             {
                 gameManager.Health -= 25;
             }
-            if (packet == goodID && Box.Blocked == false)
+            if (packetIndex == goodIndex && Box.Blocked == false)
             {
                 gameManager.Health += 5;
             }
-            if (packet == speedUpID && Box.Blocked == false && packetDelay >= .5)
+            if (packetIndex == speedUpIndex && Box.Blocked == false && packetDelay >= .5)
             {
                 packetDelay -= .1f;
             }
-            if (packet == speedDownID && Box.Blocked == false)
+            if (packetIndex == speedDownIndex && Box.Blocked == false)
             {
                 packetDelay += .1f;
             }
 
             int healthAfter = gameManager.Health;
-			gameManager.LogPacket(packetID[packet], healthBefore, healthAfter, packetDelay );
+			gameManager.LogPacket(packetIds[packetIndex], healthBefore, healthAfter, packetDelay );
         }
     }
 
@@ -98,32 +98,30 @@ public class Packets : MonoBehaviour {
                 while (x % 10 != i)
                     x = Mathf.RoundToInt(Random.Range(1, 1000));
 
-            packetID[i - 1] = x;
+            packetIds[i - 1] = x;
             //Debug.Log( packetID[i]);
         }
 
-        packetID[9] = 700;
-
         var Text1 = GameObject.Find("1Text").GetComponent<TextMesh>();
-        Text1.text = packetID[0].ToString();
+        Text1.text = packetIds[0].ToString();
         var Text2 = GameObject.Find("2Text").GetComponent<TextMesh>();
-        Text2.text = packetID[1].ToString();
+        Text2.text = packetIds[1].ToString();
         var Text3 = GameObject.Find("3Text").GetComponent<TextMesh>();
-        Text3.text = packetID[2].ToString();
+        Text3.text = packetIds[2].ToString();
         var Text4 = GameObject.Find("4Text").GetComponent<TextMesh>();
-        Text4.text = packetID[3].ToString();
+        Text4.text = packetIds[3].ToString();
         var Text5 = GameObject.Find("5Text").GetComponent<TextMesh>();
-        Text5.text = packetID[4].ToString();
+        Text5.text = packetIds[4].ToString();
         var Text6 = GameObject.Find("6Text").GetComponent<TextMesh>();
-        Text6.text = packetID[5].ToString();
+        Text6.text = packetIds[5].ToString();
         var Text7 = GameObject.Find("7Text").GetComponent<TextMesh>();
-        Text7.text = packetID[6].ToString();
+        Text7.text = packetIds[6].ToString();
         var Text8 = GameObject.Find("8Text").GetComponent<TextMesh>();
-        Text8.text = packetID[7].ToString();
+        Text8.text = packetIds[7].ToString();
         var Text9 = GameObject.Find("9Text").GetComponent<TextMesh>();
-        Text9.text = packetID[8].ToString();
+        Text9.text = packetIds[8].ToString();
         var Text10 = GameObject.Find("10Text").GetComponent<TextMesh>();
-        Text10.text = packetID[9].ToString();
+        Text10.text = packetIds[9].ToString();
     }
 
     float GetRandomDelay()

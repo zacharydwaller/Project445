@@ -54,6 +54,7 @@ public class GameManager : MonoBehaviour
 
         if (Box.Blocked == true)
         {
+            Debug.Log(boxID);
             logStr += " BLOCKED";
         }
 
