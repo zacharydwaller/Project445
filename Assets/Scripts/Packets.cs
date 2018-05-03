@@ -3,9 +3,12 @@
 public class Packets : MonoBehaviour {
 
     int badID;
+    int goodID;
+    int speedUpID;
+    int speedDownID;
     int[] packetID = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 700 };
 
-    float packetDelay = 1;
+    public float packetDelay = 1f;
     float packetDelayVariance = 0.5f;
     float nextPacket;
 
@@ -15,8 +18,19 @@ public class Packets : MonoBehaviour {
     void Start() {
         PacketIDMaker();
         badID = (Random.Range(0, 10));
+        goodID = (Random.Range(0, 10));
+        speedUpID = (Random.Range(0, 10));
+        speedDownID = (Random.Range(0, 10));
+        while ( goodID == badID)
+            goodID = (Random.Range(0, 10));
+        while (speedUpID == goodID || speedUpID == badID)
+            speedUpID = (Random.Range(0, 10));
+        while (speedDownID == goodID || speedDownID == badID || speedDownID == speedUpID)
+            speedDownID = (Random.Range(0, 10));
+
 
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+		//Box1 = GameObject.Find("Box1").GetComponent<COlor>();
 
         
 
@@ -25,21 +39,57 @@ public class Packets : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+
         if (Time.time >= nextPacket)
         {
+            string boxID = "1";
             nextPacket = Time.time + GetRandomDelay();
 
             int healthBefore = gameManager.Health;
             int packet = Mathf.RoundToInt(Random.Range(0, 10));
+            if (gameManager.Health <= 0)
+                Application.LoadLevel("gameOver");
+            if (packet == 0)
+            { boxID = "Box1";  }
+            else if (packet == 1)
+            { boxID = "Box2"; }
+            else if (packet == 2)
+            { boxID = "Box3"; }
+            else if (packet == 3)
+            { boxID = "Box4"; }
+            else if (packet == 4)
+            { boxID = "Box5"; }
+            else if (packet == 5)
+            { boxID = "Box6"; }
+            else if (packet == 6)
+            { boxID = "Box7"; }
+            else if (packet == 7)
+            { boxID = "Box8"; }
+            else if (packet == 8)
+            { boxID = "Box9"; }
+            else if (packet == 9)
+            { boxID = "Box10"; }
+            var Box = GameObject.Find(boxID).GetComponent<portBlock>();
 
-            if (packet == badID)
+            if (packet == badID && Box.blocked != 1)
             {
                 gameManager.Health -= 4;
             }
+            if (packet == goodID && Box.blocked != 1)
+            {
+                gameManager.Health += 4;
+            }
+            if (packet == speedUpID && Box.blocked != 1 && packetDelay >= .5)
+            {
+                packetDelay -= .1f;
+            }
+            if (packet == speedDownID && Box.blocked != 1)
+            {
+                packetDelay += .1f;
+            }
 
             int healthAfter = gameManager.Health;
-
-            gameManager.LogPacket(packetID[packet], healthBefore, healthAfter);
+			gameManager.LogPacket(packetID[packet], healthBefore, healthAfter, packetDelay );
         }
     }
 
