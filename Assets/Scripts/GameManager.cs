@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     public int Health = MaxHealth;
     Text logText;
 
-    public const float GoalTime = 1f;
+    public const float GoalTime = 60f;
     private float StartTime;
 
     List<string> LogMessages;
