@@ -66,11 +66,11 @@ public class Packets : MonoBehaviour {
 
             if (packet == badID && Box.blocked != 1)
             {
-                gameManager.Health -= 4;
+                gameManager.Health -= 25;
             }
             if (packet == goodID && Box.blocked != 1)
             {
-                gameManager.Health += 4;
+                gameManager.Health += 5;
             }
             if (packet == speedUpID && Box.blocked != 1 && packetDelay >= .5)
             {
