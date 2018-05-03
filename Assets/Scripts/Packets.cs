@@ -91,12 +91,13 @@ public class Packets : MonoBehaviour {
     void PacketIDMaker()
     {
         int x;
-        for (int i = 1; i < 10; i++)
+        for (int i = 1; i <= 10; i++)
         {
-            x = Mathf.RoundToInt(Random.Range(1, 1000));
-            if (x % 10 != i)
-                while (x % 10 != i)
-                    x = Mathf.RoundToInt(Random.Range(1, 1000));
+            x = Mathf.RoundToInt(Random.Range(100, 1000));
+
+            // Make last number match box number
+            int indexDiff = (x % 10) - (i % 10);
+            x -= indexDiff;
 
             packetIds[i - 1] = x;
             //Debug.Log( packetID[i]);
