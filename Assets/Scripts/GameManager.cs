@@ -44,17 +44,17 @@ public class GameManager : MonoBehaviour
 	public void LogPacket(int packetId, int healthBefore, int healthAfter, float packetDelay)
     {
         string portScriptNumber = "1";
-        int boxNumber = packetId % 10;
+        int boxNumber = (packetId % 10) + 1;
         string boxID = "Box" + boxNumber.ToString();
 
-        var Box1 = GameObject.Find(boxID).GetComponent<portBlock>();
+        var Box = GameObject.Find(boxID).GetComponent<PortBlock>();
 
         string logStr = string.Format(
                 "{0} [**] Incoming Packet Detected [PacketId: {1}]\n[HealthBefore: {2}] [ HealthAfter : {3}] [Packet Rate : {4}]",
                 GetTimestamp(), packetId, healthBefore, healthAfter, packetDelay);
 
 
-        if (Box1.blocked == 1)
+        if (Box.Blocked == true)
         {
             logStr += " BLOCKED";
         }

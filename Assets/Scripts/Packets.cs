@@ -54,7 +54,7 @@ public class Packets : MonoBehaviour {
             int healthBefore = gameManager.Health;
 
             int packet = Mathf.RoundToInt(Random.Range(0, 10));
-            int boxNumber = packet % 10;
+            int boxNumber = (packet % 10) + 1;
             string boxID = "Box" + boxNumber.ToString();
 
             if (gameManager.Health <= 0)
@@ -62,21 +62,21 @@ public class Packets : MonoBehaviour {
                 SceneManager.LoadScene("gameOver");
             }
 
-            var Box = GameObject.Find(boxID).GetComponent<portBlock>();
+            var Box = GameObject.Find(boxID).GetComponent<PortBlock>();
 
-            if (packet == badID && Box.blocked != 1)
+            if (packet == badID && Box.Blocked == false)
             {
                 gameManager.Health -= 25;
             }
-            if (packet == goodID && Box.blocked != 1)
+            if (packet == goodID && Box.Blocked == false)
             {
                 gameManager.Health += 5;
             }
-            if (packet == speedUpID && Box.blocked != 1 && packetDelay >= .5)
+            if (packet == speedUpID && Box.Blocked == false && packetDelay >= .5)
             {
                 packetDelay -= .1f;
             }
-            if (packet == speedDownID && Box.blocked != 1)
+            if (packet == speedDownID && Box.Blocked == false)
             {
                 packetDelay += .1f;
             }
