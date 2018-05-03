@@ -36,34 +36,34 @@ public class GameManager : MonoBehaviour
 
         var Box1 = GameObject.Find(boxID).GetComponent<portBlock>();
 
-        if (Box1.blocked == 0)
-        {
-            string logStr =
-                string.Format(
-                    "{0} [**] Incoming Packet Detected [PacketId: {1}]\n[HealthBefore: {2}] [ HealthAfter : {3}] [Packet Rate : {4}]",
-                    GetTimestamp(), packetId, healthBefore, healthAfter, packetDelay);
-            LogMessages.Add(logStr);
-        }
+        string logStr = string.Format(
+                "{0} [**] Incoming Packet Detected [PacketId: {1}]\n[HealthBefore: {2}] [ HealthAfter : {3}] [Packet Rate : {4}]",
+                GetTimestamp(), packetId, healthBefore, healthAfter, packetDelay);
+
+
         if (Box1.blocked == 1)
         {
-            string logStr =
-                string.Format(
-                    "{0} [**] Incoming Packet Detected [PacketId: {1}]\n[HealthBefore: {2}] [ HealthAfter : {3}] [Packet Rate : {4}] BLOCKED",
-                    GetTimestamp(), packetId, healthBefore, healthAfter, packetDelay);
-            LogMessages.Add(logStr);
+            logStr += " BLOCKED";
         }
 
+        LogMessages.Add(logStr);
+
+        PrintLog();
+     }
+
+    private void PrintLog()
+    {
         if (LogMessages.Count > maxMessages)
         {
             LogMessages.RemoveAt(0);
         }
 
         logText.text = "";
-        foreach(var message in LogMessages)
+        foreach (var message in LogMessages)
         {
-           logText.text += message + "\n";
+            logText.text += message + "\n";
         }
-     }
+    }
 
     string GetTimestamp()
     {
