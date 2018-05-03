@@ -25,9 +25,7 @@ public class GameManager : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-			//var Box1 = GameObject.Find("Box1").GetComponent<portBlock>();
-        LogMessages = new List<string>();
-		 //Debug.Log( Box1.blocked );
+
 	}
 
 	public void LogPacket(int packetId, int healthBefore, int healthAfter, float packetDelay)
@@ -69,7 +67,7 @@ public class GameManager : MonoBehaviour
         {
             string logStr =
                 string.Format(
-                    "{0} [**] Incoming Packet Detected [PacketId: {1}]           [HealthBefore: {2}] [ HealthAfter : {3}] [Packet Rate : {4}]",
+                    "{0} [**] Incoming Packet Detected [PacketId: {1}]\n[HealthBefore: {2}] [ HealthAfter : {3}] [Packet Rate : {4}]",
                     GetTimestamp(), packetId, healthBefore, healthAfter, packetDelay);
             LogMessages.Add(logStr);
         }
@@ -77,7 +75,7 @@ public class GameManager : MonoBehaviour
         {
             string logStr =
                 string.Format(
-                    "{0} [**] Incoming Packet Detected [PacketId: {1}]           [HealthBefore: {2}] [ HealthAfter : {3}] [Packet Rate : {4}] BLOCKED",
+                    "{0} [**] Incoming Packet Detected [PacketId: {1}]\n[HealthBefore: {2}] [ HealthAfter : {3}] [Packet Rate : {4}] BLOCKED",
                     GetTimestamp(), packetId, healthBefore, healthAfter, packetDelay);
             LogMessages.Add(logStr);
         }
