@@ -11,11 +11,10 @@ function Start () {
              var hit: RaycastHit;
              var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
              
-             if (Physics.Raycast(ray, hit)) 
-			 {Debug.Log("test");
+             if (Physics.Raycast(ray, hit))
+             {
                  if (hit.transform.name == "Box1" )
                  {
-					Debug.Log("test");
 					Application.LoadLevel("d");
                  }
              }

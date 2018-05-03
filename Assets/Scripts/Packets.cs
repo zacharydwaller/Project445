@@ -7,6 +7,7 @@ public class Packets : MonoBehaviour {
     int goodID;
     int speedUpID;
     int speedDownID;
+
     int[] packetID = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 700 };
 
     public float packetDelay = 1f;

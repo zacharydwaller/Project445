@@ -11,7 +11,7 @@ public class SharpText : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Start() {
-
+        mainCamera = Camera.main;
         OnCameraSizeChange();
 	}
 

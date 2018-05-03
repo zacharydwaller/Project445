@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -8,6 +9,11 @@ public class GameManager : MonoBehaviour
     public const int MaxHealth = 100;
     public int Health = MaxHealth;
     Text logText;
+
+    public const float GoalTime = 1f;
+    private float StartTime;
+
+    bool winTransition = false;
 
     List<string> LogMessages;
     int maxMessages = 10;
@@ -20,12 +26,23 @@ public class GameManager : MonoBehaviour
         logText = GameObject.Find("LogText").GetComponent<Text>();
 
         logText.text = "";
+
+        StartTime = Time.time;
     }
 	
 	// Update is called once per frame
 	void Update ()
 	{
+        if(Time.time >= StartTime + GoalTime)
+        {
+            winTransition = true;
+            SceneManager.LoadScene("winScene");
 
+            int score = Health * 100;
+            var scoreObj = GameObject.Find("ScoreText");
+            var scoreText = scoreObj.GetComponent<TextMesh>();
+            scoreText.text = "Your Score: " + score.ToString();
+        }
 	}
 
 	public void LogPacket(int packetId, int healthBefore, int healthAfter, float packetDelay)
