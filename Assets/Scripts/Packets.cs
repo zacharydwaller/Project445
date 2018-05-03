@@ -8,16 +8,17 @@ public class Packets : MonoBehaviour {
     int speedUpID;
     int speedDownID;
 
-    int[] packetID = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 700 };
+    int[] packetID = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 
     public float packetDelay = 1f;
-    float packetDelayVariance = 0.5f;
+    float packetDelayVariance = 0.25f;
     float nextPacket;
 
     GameManager gameManager;
 
     // Use this for initialization
-    void Start() {
+    void Start()
+    {
         PacketIDMaker();
 
         badID = Random.Range(0, 10);
@@ -45,7 +46,13 @@ public class Packets : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update() {
+    void Update()
+    {
+
+        if (gameManager.Health <= 0)
+        {
+            SceneManager.LoadScene("gameOver");
+        }
 
         if (Time.time >= nextPacket)
         {
@@ -56,11 +63,6 @@ public class Packets : MonoBehaviour {
             int packet = Mathf.RoundToInt(Random.Range(0, 10));
             int boxNumber = (packet % 10) + 1;
             string boxID = "Box" + boxNumber.ToString();
-
-            if (gameManager.Health <= 0)
-            {
-                SceneManager.LoadScene("gameOver");
-            }
 
             var Box = GameObject.Find(boxID).GetComponent<PortBlock>();
 

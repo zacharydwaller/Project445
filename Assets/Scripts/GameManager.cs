@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     private float StartTime;
 
     List<string> LogMessages;
-    int maxMessages = 10;
+    int maxMessages = 9;
 
     // Use this for initialization
     void Start ()
@@ -43,7 +43,6 @@ public class GameManager : MonoBehaviour
 
 	public void LogPacket(int packetId, int healthBefore, int healthAfter, float packetDelay)
     {
-        string portScriptNumber = "1";
         int boxNumber = (packetId % 10) + 1;
         string boxID = "Box" + boxNumber.ToString();
 
@@ -52,7 +51,6 @@ public class GameManager : MonoBehaviour
         string logStr = string.Format(
                 "{0} [**] Incoming Packet Detected [PacketId: {1}]\n[HealthBefore: {2}] [ HealthAfter : {3}] [Packet Rate : {4}]",
                 GetTimestamp(), packetId, healthBefore, healthAfter, packetDelay);
-
 
         if (Box.Blocked == true)
         {
@@ -74,7 +72,7 @@ public class GameManager : MonoBehaviour
         logText.text = "";
         foreach (var message in LogMessages)
         {
-            logText.text += message + "\n";
+            logText.text += message + "\n\n";
         }
     }
 
